@@ -1,6 +1,6 @@
 //
 //  SceneDelegate.swift
-//  SocketIOManager
+//  test
 //
 //  Created by Dmitry Onishchuk on 08.07.2021.
 //
