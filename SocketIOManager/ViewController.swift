@@ -7,23 +7,27 @@
 
 import UIKit
 
-class ViewController: UIViewController, Observer {
+class ViewController: UIViewController, SocketIOObserver {
     
     @IBOutlet weak var typingLabel: UILabel!
     
-    var sm: SocketIOManager!
+    var socketIOManager: SocketIOManager!
     
     @IBOutlet weak var loginButtonAction: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        sm = SocketIOManager.shared
-        sm.subscribe(self)
+        socketIOManager = SocketIOManager.shared
+        socketIOManager.subscribe(self)
+    }
+    
+    deinit {
+        socketIOManager.unsubscribe(self)
     }
     
     @IBAction func loginButtonAction(_ sender: UIButton) {
-        sm.login()
+        socketIOManager.login()
     }
     
     func newMessage(message: Any) {
@@ -34,9 +38,8 @@ class ViewController: UIViewController, Observer {
             
             switch msg.event {
             case .TYPING:
-                if let typing: TypingResponse = try? SocketParser.convert(data: msg.json) {
-                    typingLabel.text = typing.username + " is typing"
-                }
+                let us = msg.data as! TypingResponse
+                typingLabel.text = us.username + " is typing"
             case .STOP_TYPING:
                 typingLabel.text = " "
             default:

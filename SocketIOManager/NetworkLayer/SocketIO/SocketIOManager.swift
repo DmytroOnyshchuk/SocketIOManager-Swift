@@ -8,24 +8,28 @@
 
 import Foundation
 import SocketIO
-import SwiftyJSON
 
-protocol Observer: class {
+protocol SocketIOObserver: AnyObject {
     func newMessage(message: Any)
+}
+
+protocol SocketIOObserverProtocol{
+    func subscribe(_ subscriber: SocketIOObserver)
+    func unsubscribe(_ subscriber: SocketIOObserver)
 }
 
 let chatURL = "http://socketio-chat-h9jt.herokuapp.com/"
 
-class SocketIOManager {
+class SocketIOManager: SocketIOObserverProtocol {
     
     static let shared = SocketIOManager(socketURL: URL(string: chatURL)!)
     
     private let RECONNECTION_ATTEMPT = 10;
     private let RECONNECTION_DELAY = 5000;
     
-    private var socket:SocketIOClient!
-    private var manager:SocketManager!
-    private lazy var observers = [Observer]()
+    private var socket: SocketIOClient!
+    private var manager: SocketManager!
+    private lazy var subscribers = [SocketIOObserver]()
     
     init(socketURL: URL) {
         let config: SocketIOClientConfiguration = [.log(false),
@@ -34,8 +38,6 @@ class SocketIOManager {
                                                    .reconnectAttempts(RECONNECTION_ATTEMPT),
                                                    .reconnectWait(RECONNECTION_DELAY),
                                                    .compress]
-        
-        
         
         self.manager = SocketManager(socketURL: socketURL, config: config)
         self.socket = manager.defaultSocket
@@ -49,26 +51,25 @@ class SocketIOManager {
     
     // MARK: Observer Functions
     
-    func subscribe(_ observer: Observer){
-        if isUniqSubscriber(observer: observer) {
-            print("Someone subscribed to SocketIO observer")
-            observers.append(observer)
-            print(String(observers.count) + " subscribers")
+    func subscribe(_ subscriber: SocketIOObserver){
+        if isUniqSubscriber(subscriber: subscriber) {
+            subscribers.append(subscriber)
+            print("[SocketIO] Someone subscribed to observer. " + String(subscribers.count) + " subscribers")
         }else{
-            print("Someone didnt subscribed to SocketIO. Is already subscriber")
+            print("[SocketIO] Someone didn't subscribed to observer. Is already subscriber")
         }
     }
     
-    func unsubscribe(_ observer: Observer){
-        if let index = observers.index(where: {$0 === observer}){
-            observers.remove(at: index)
-            print(#function)
+    func unsubscribe(_ subscriber: SocketIOObserver){
+        if let index = subscribers.firstIndex(where: {$0 === subscriber}){
+            subscribers.remove(at: index)
+            print("[SocketIO] Someone unsubscribed from observer. " + String(subscribers.count) + " subscribers")
         }
     }
     
-    private func isUniqSubscriber(observer: Observer) -> Bool{
-        for subscriber in observers {
-            if subscriber === observer{
+    private func isUniqSubscriber(subscriber: SocketIOObserver) -> Bool{
+        for sub in  subscribers {
+            if sub === subscriber{
                 return false
             }
         }
@@ -96,20 +97,19 @@ class SocketIOManager {
         }
         
         socket.on(clientEvent: .statusChange) {[weak self] data, ack in
-            print("SocketIO statusChanged: " + (self?.socket.status.description)!)
+            print("[SocketIO] statusChanged: " + (self?.socket.status.description)!)
         }
         
         socket.on(clientEvent: .error) {[weak self] data, ack in
-            print("SocketIO ERROR: ")
+            print("[SocketIO] ERROR: ")
             if data.count > 0 {
                 print(data)
             }
         }
         
-        socket.on(SocketIOEvent.TYPING.rawValue) {[weak self] data, ack in
-            if data.count > 0 {
-                self?.isTyping(data: data)
-            }
+        
+        socket.on(SocketIOEvent.TYPING.rawValue) { (data: TypingResponse) in
+            self.isTyping(data: data)
         }
         
         socket.on(SocketIOEvent.STOP_TYPING.rawValue) {[weak self] data, ack in
@@ -125,54 +125,52 @@ class SocketIOManager {
     }
     
     private func connected(){
-        print("SocketIO Connected")
+        print("[SocketIO] Connected")
     }
     
     private func reconnect(){
-        print("SocketIO Reconnect")
+        print("[SocketIO] Reconnect")
     }
     
     private func reconnectAttempt(){
-        print("SocketIO Reconnect Attempt")
+        print("[SocketIO] Reconnect Attempt")
     }
     
     private func disconnected(){
-        print("SocketIO Disconnected")
+        print("[SocketIO] Disconnected")
     }
     
-    private func isTyping(data: [Any]){
+    private func isTyping(data: TypingResponse){
         print(String(describing: self) + " " + #function)
         print(data)
         
-        guard let json = data.first as? [String: Any] else { return }
-        let me = MessageEvent(event: SocketIOEvent.TYPING, json: json, error: nil)
+        let me = MessageEvent(event: SocketIOEvent.TYPING, data: data, error: nil)
         notifyEvent(message: me)
     }
     
     private func stopTyping(data: [Any]){
-        print(String(describing: self) + " " + #function)
+        print("[SocketIO] " + #function)
         print(data)
         
         guard let json = data.first as? [String: Any] else { return }
-        let me = MessageEvent(event: SocketIOEvent.STOP_TYPING, json: json, error: nil)
+        let me = MessageEvent(event: SocketIOEvent.STOP_TYPING, data: json, error: nil)
         notifyEvent(message: me)
     }
     
     private func notifyEvent(message: MessageEvent){
-        print(String(describing: self) + " " + #function)
-        observers.forEach{$0.newMessage(message: message)}
+        print("[SocketIO] " + #function)
+        subscribers.forEach{$0.newMessage(message: message)}
     }
-    
-    
+
     // MARK: Public Functions
     
     func establishConnection() {
-        print("SocketIO " + #function)
+        print("[SocketIO] " + #function)
         if (self.socket?.status == .disconnected || self.socket?.status == .notConnected ) {
             socket?.connect()
         }
         else {
-            debugPrint("======= Socket already connected =======")
+            print("[SocketIO] already connected")
         }
     }
     
@@ -182,16 +180,16 @@ class SocketIOManager {
     }
     
     func login(){
-        print(String(describing: self) + " " + #function)
+        print("[SocketIO]: " + #function)
         //sendEvent(event: SocketIOEvent.LOGIN, json: "TestUser")
         socket.emit(SocketIOEvent.LOGIN.rawValue, "TestUser")
     }
     
     func sendEvent(event:SocketIOEvent, json: mJSON){
-       // print("sendEvent: " + "\"" + event.rawValue + "\"" + ". With JSON:")
-       // print(json)
+        // print("sendEvent: " + "\"" + event.rawValue + "\"" + ". With JSON:")
+        // print(json)
         
-        print("SocketIOManager: sendEvent: " + "\"" + event.rawValue + "\"" + ". With JSON:")
+        print("[SocketIO]: sendEvent: " + "\"" + event.rawValue + "\"" + ". With JSON:")
         print(json)
         socket.emit(event.rawValue, json)
     }

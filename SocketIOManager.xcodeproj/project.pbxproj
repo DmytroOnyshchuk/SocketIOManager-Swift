@@ -20,6 +20,7 @@
 		3282257E26976293002628F7 /* SocketIOEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3282257926976293002628F7 /* SocketIOEvent.swift */; };
 		32822581269762A3002628F7 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32822580269762A3002628F7 /* Types.swift */; };
 		328225A326976477002628F7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328225A226976477002628F7 /* SceneDelegate.swift */; };
+		3288D31126A71C2B004BFA72 /* SocketIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3288D31026A71C2B004BFA72 /* SocketIO.swift */; };
 		B5AC77E14D96253D5D57875D /* Pods_SocketIOManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC07D8E8E363551F82D07AC /* Pods_SocketIOManager.framework */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +40,7 @@
 		3282257926976293002628F7 /* SocketIOEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketIOEvent.swift; sourceTree = "<group>"; };
 		32822580269762A3002628F7 /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		328225A226976477002628F7 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		3288D31026A71C2B004BFA72 /* SocketIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketIO.swift; sourceTree = "<group>"; };
 		596D4EFB08D92EE4C933704F /* Pods-SocketIOManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SocketIOManager.release.xcconfig"; path = "Target Support Files/Pods-SocketIOManager/Pods-SocketIOManager.release.xcconfig"; sourceTree = "<group>"; };
 		731D17DDB6D1D49753B2DF01 /* Pods-SocketIOManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SocketIOManager.debug.xcconfig"; path = "Target Support Files/Pods-SocketIOManager/Pods-SocketIOManager.debug.xcconfig"; sourceTree = "<group>"; };
 		FAC07D8E8E363551F82D07AC /* Pods_SocketIOManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SocketIOManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,6 +87,7 @@
 		3282255B26976219002628F7 /* SocketIOManager */ = {
 			isa = PBXGroup;
 			children = (
+				3288D30F26A71C18004BFA72 /* Extensions */,
 				3282257026976262002628F7 /* NetworkLayer */,
 				3282257F2697629B002628F7 /* Common */,
 				3282255C26976219002628F7 /* AppDelegate.swift */,
@@ -133,6 +136,14 @@
 				32822580269762A3002628F7 /* Types.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		3288D30F26A71C18004BFA72 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3288D31026A71C2B004BFA72 /* SocketIO.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		7873737AD226BE0EF643518F /* Pods */ = {
@@ -265,6 +276,7 @@
 				3282257A26976293002628F7 /* SocketIOManager.swift in Sources */,
 				328225A326976477002628F7 /* SceneDelegate.swift in Sources */,
 				3282255D26976219002628F7 /* AppDelegate.swift in Sources */,
+				3288D31126A71C2B004BFA72 /* SocketIO.swift in Sources */,
 				3282257D26976293002628F7 /* MessageEvent.swift in Sources */,
 				3282257326976277002628F7 /* StarScreamManager.swift in Sources */,
 				3282257B26976293002628F7 /* SocketParser.swift in Sources */,

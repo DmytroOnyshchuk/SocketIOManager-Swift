@@ -12,12 +12,12 @@ import UIKit
 class MessageEvent{
     
     let event: SocketIOEvent
-    let json: mJSON
+    let data: Any
     let error: String?
     
-    init(event: SocketIOEvent, json: [String: Any], error: String?) {
+    init(event: SocketIOEvent, data: Any, error: String?) {
         self.event = event
-        self.json = json
+        self.data = data
         self.error = error
     }
 }
