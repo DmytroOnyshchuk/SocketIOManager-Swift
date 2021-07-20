@@ -31,7 +31,7 @@ class SocketIOManager: SocketIOObserverProtocol {
     private var manager: SocketManager!
     private lazy var subscribers = [SocketIOObserver]()
     
-    init(socketURL: URL) {
+    private init(socketURL: URL) {
         let config: SocketIOClientConfiguration = [.log(false),
                                                    .forceNew(true),
                                                    .reconnects(true),
@@ -119,8 +119,7 @@ class SocketIOManager: SocketIOObserverProtocol {
         }
         
         socket.onAny({(event) in
-            // print(event)
-            //print("Got event: \(event.event), with items: \(event.items)")
+            //print("[SocketIO] Got event: \(event.event), with items: \(event.items)")
         })
     }
     
