@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3279C94426A86A2F009DD9D4 /* StopTypingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3279C94326A86A2F009DD9D4 /* StopTypingResponse.swift */; };
 		3282255D26976219002628F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3282255C26976219002628F7 /* AppDelegate.swift */; };
 		3282256126976219002628F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3282256026976219002628F7 /* ViewController.swift */; };
 		3282256426976219002628F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3282256226976219002628F7 /* Main.storyboard */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3279C94326A86A2F009DD9D4 /* StopTypingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopTypingResponse.swift; sourceTree = "<group>"; };
 		3282255926976219002628F7 /* SocketIOManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SocketIOManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3282255C26976219002628F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3282256026976219002628F7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -64,6 +66,15 @@
 				FAC07D8E8E363551F82D07AC /* Pods_SocketIOManager.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3279C94226A86A15009DD9D4 /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				3282257726976293002628F7 /* TypingResponse.swift */,
+				3279C94326A86A2F009DD9D4 /* StopTypingResponse.swift */,
+			);
+			path = Responses;
 			sourceTree = "<group>";
 		};
 		3282255026976219002628F7 = {
@@ -121,11 +132,11 @@
 		3282257426976287002628F7 /* SocketIO */ = {
 			isa = PBXGroup;
 			children = (
+				3279C94226A86A15009DD9D4 /* Responses */,
 				3282257526976293002628F7 /* SocketIOManager.swift */,
 				3282257826976293002628F7 /* MessageEvent.swift */,
 				3282257926976293002628F7 /* SocketIOEvent.swift */,
 				3282257626976293002628F7 /* SocketParser.swift */,
-				3282257726976293002628F7 /* TypingResponse.swift */,
 			);
 			path = SocketIO;
 			sourceTree = "<group>";
@@ -272,6 +283,7 @@
 				3282257C26976293002628F7 /* TypingResponse.swift in Sources */,
 				3282257E26976293002628F7 /* SocketIOEvent.swift in Sources */,
 				3282256126976219002628F7 /* ViewController.swift in Sources */,
+				3279C94426A86A2F009DD9D4 /* StopTypingResponse.swift in Sources */,
 				32822581269762A3002628F7 /* Types.swift in Sources */,
 				3282257A26976293002628F7 /* SocketIOManager.swift in Sources */,
 				328225A326976477002628F7 /* SceneDelegate.swift in Sources */,

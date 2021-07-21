@@ -151,7 +151,7 @@ class SocketIOManager: SocketIOObserverProtocol {
         print("[SocketIO] " + #function)
         print(data)
         
-        guard let json = data.first as? [String: Any] else { return }
+        guard let json = data.first as? mJSON else { return }
         let me = MessageEvent(event: SocketIOEvent.STOP_TYPING, data: json, error: nil)
         notifyEvent(message: me)
     }

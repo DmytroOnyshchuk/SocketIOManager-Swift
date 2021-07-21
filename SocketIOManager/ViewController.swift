@@ -10,10 +10,9 @@ import UIKit
 class ViewController: UIViewController, SocketIOObserver {
     
     @IBOutlet weak var typingLabel: UILabel!
+    @IBOutlet weak var loginButtonAction: UIButton!
     
     var socketIOManager: SocketIOManager!
-    
-    @IBOutlet weak var loginButtonAction: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +40,9 @@ class ViewController: UIViewController, SocketIOObserver {
                 let us = msg.data as! TypingResponse
                 typingLabel.text = us.username + " is typing"
             case .STOP_TYPING:
-                typingLabel.text = " "
+                if let response: StopTypingResponse = try? SocketParser.convert(data: msg.data) {
+                    typingLabel.text = response.username + " is stop typing"
+                }
             default:
                 break
             }
