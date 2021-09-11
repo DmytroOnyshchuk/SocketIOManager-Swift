@@ -18,11 +18,11 @@ class ViewController: UIViewController, SocketIOObserver {
         super.viewDidLoad()
         
         socketIOManager = SocketIOManager.shared
-        socketIOManager.subscribe(self)
+        socketIOManager.addObserver(self)
     }
     
     deinit {
-        socketIOManager.unsubscribe(self)
+        socketIOManager.removeObserver(self)
     }
     
     @IBAction func loginButtonAction(_ sender: UIButton) {

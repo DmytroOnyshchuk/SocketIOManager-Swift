@@ -14,8 +14,8 @@ protocol SocketIOObserver: AnyObject {
 }
 
 protocol SocketIOObserverProtocol{
-    func subscribe(_ subscriber: SocketIOObserver)
-    func unsubscribe(_ subscriber: SocketIOObserver)
+    func addObserver(_ subscriber: SocketIOObserver)
+    func removeObserver(_ subscriber: SocketIOObserver)
 }
 
 let chatURL = "http://socketio-chat-h9jt.herokuapp.com/"
@@ -51,7 +51,7 @@ class SocketIOManager: SocketIOObserverProtocol {
     
     // MARK: Observer Functions
     
-    func subscribe(_ subscriber: SocketIOObserver){
+    func addObserver(_ subscriber: SocketIOObserver){
         if isUniqSubscriber(subscriber: subscriber) {
             subscribers.append(subscriber)
             print("[SocketIO] Someone subscribed to observer. " + String(subscribers.count) + " subscribers")
@@ -60,7 +60,7 @@ class SocketIOManager: SocketIOObserverProtocol {
         }
     }
     
-    func unsubscribe(_ subscriber: SocketIOObserver){
+    func removeObserver(_ subscriber: SocketIOObserver){
         if let index = subscribers.firstIndex(where: {$0 === subscriber}){
             subscribers.remove(at: index)
             print("[SocketIO] Someone unsubscribed from observer. " + String(subscribers.count) + " subscribers")
